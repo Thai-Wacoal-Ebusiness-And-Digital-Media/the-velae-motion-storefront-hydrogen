@@ -8,6 +8,14 @@ import {Await, useLoaderData} from '@remix-run/react';
 import {getSeoMeta} from '@shopify/hydrogen';
 
 import {Hero} from '~/components/Hero';
+import {MotionHero} from '~/components/MotionHero';
+import {VelaeTriptych} from '~/components/VelaeTriptych';
+import {VelaeEditorialSplit} from '~/components/VelaeEditorialSplit';
+import {VelaeBrandStory} from '~/components/VelaeBrandStory';
+import {VelaePillars} from '~/components/VelaePillars';
+import {VelaeLookbook} from '~/components/VelaeLookbook';
+import {VelaeMarquee} from '~/components/VelaeMarquee';
+import {VelaeNewsletter} from '~/components/VelaeNewsletter';
 import {FeaturedCollections} from '~/components/FeaturedCollections';
 import {ProductSwimlane} from '~/components/ProductSwimlane';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
@@ -155,9 +163,35 @@ export default function Homepage() {
 
   return (
     <>
-      {primaryHero && (
-        <Hero {...primaryHero} height="full" top loading="eager" />
-      )}
+      <MotionHero />
+      <VelaeTriptych />
+
+      <VelaeEditorialSplit
+        image="/assets/editorial-fragrance.jpeg"
+        imageAlt="Amber perfume bottle with ceramic dish and dried wildflower"
+        eyebrow="Fragrance"
+        heading="Scent that stays with you quietly"
+        body="Natural fragrances built from essential oils and botanicals — never loud, always present. Designed to feel like a second skin."
+        ctaLabel="Explore fragrance"
+        ctaHref="/collections/fragrance"
+      />
+
+      <VelaePillars />
+      <VelaeBrandStory />
+      <VelaeMarquee />
+
+      <VelaeEditorialSplit
+        image="/assets/triptych-wardrobe.jpeg"
+        imageAlt="Person wearing natural linen shirt"
+        eyebrow="The Wardrobe"
+        heading="Linen, cotton, wool — nothing more"
+        body="Simple, well-made clothing in natural fibres. Pieces that soften with wear, age with grace, and never try too hard."
+        ctaLabel="Explore the wardrobe"
+        ctaHref="/collections/the-wardrobe"
+        reverse
+      />
+
+      <VelaeLookbook />
 
       {featuredProducts && (
         <Suspense>
@@ -182,53 +216,7 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {secondaryHero && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={secondaryHero}>
-            {(response) => {
-              if (!response || !response?.hero) {
-                return <></>;
-              }
-              return <Hero {...response.hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )}
-
-      {featuredCollections && (
-        <Suspense>
-          <Await resolve={featuredCollections}>
-            {(response) => {
-              if (
-                !response ||
-                !response?.collections ||
-                !response?.collections?.nodes
-              ) {
-                return <></>;
-              }
-              return (
-                <FeaturedCollections
-                  collections={response.collections}
-                  title="Collections"
-                />
-              );
-            }}
-          </Await>
-        </Suspense>
-      )}
-
-      {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {(response) => {
-              if (!response || !response?.hero) {
-                return <></>;
-              }
-              return <Hero {...response.hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )}
+      <VelaeNewsletter />
     </>
   );
 }

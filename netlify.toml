@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build:netlify"
+  publish = "build/client"
+  edge_functions = ".netlify/edge-functions"
+
+[dev]
+  framework = "#static"
+  publish = "build/client"

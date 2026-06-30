@@ -39,6 +39,7 @@ type LayoutProps = {
 
 export function PageLayout({children, layout}: LayoutProps) {
   const {headerMenu, footerMenu} = layout || {};
+  const isHome = useIsHomePath();
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -47,7 +48,7 @@ export function PageLayout({children, layout}: LayoutProps) {
             Skip to content
           </a>
         </div>
-        {headerMenu && layout?.shop.name && (
+        {!isHome && headerMenu && layout?.shop.name && (
           <Header title={layout.shop.name} menu={headerMenu} />
         )}
         <main role="main" id="mainContent" className="flex-grow">

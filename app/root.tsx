@@ -74,6 +74,19 @@ export const links: LinksFunction = () => {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.googleapis.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://fonts.gstatic.com',
+      crossOrigin: 'anonymous' as const,
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.bunny.net/css?family=fraunces:380,400,500|hanken-grotesk:300,400,500,600&display=swap',
+    },
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 };

@@ -4,9 +4,9 @@
 
 /* Tokens */
 :root {
-  --color-primary: 20 20 20; /* Text, buttons, etc. */
-  --color-contrast: 250 250 249; /* Backgrounds, borders, etc. */
-  --color-accent: 191 72 0; /* Labels like "On sale" */
+  --color-primary: 28 26 23; /* #1C1A17 */
+  --color-contrast: 247 244 239; /* #F7F4EF cream */
+  --color-accent: 156 107 74; /* #9C6B4A clay */
   --font-size-fine: 0.75rem; /* text-xs */
   --font-size-copy: 1rem; /* text-base */
   --font-size-lead: 1.125rem; /* text-lg */
@@ -34,13 +34,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: 250 250 250;
-    --color-contrast: 32 33 36;
-    --color-accent: 235 86 40;
-  }
-}
+/* Velae uses a warm light palette regardless of system preference */
 
 @keyframes fadeInAnimation {
   0% {
@@ -48,6 +42,26 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes velae-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.velae-marquee-track {
+  animation: velae-marquee 30s linear infinite;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .velae-marquee-track {
+    animation: none;
   }
 }
 
@@ -64,6 +78,8 @@ shop-pay-button {
 
   body {
     @apply border-primary/10 bg-contrast text-primary/90 antialiased;
+    font-family: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 
   html {
