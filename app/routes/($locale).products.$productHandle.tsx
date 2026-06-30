@@ -145,7 +145,7 @@ export default function Product() {
 
   return (
     <>
-      <Section className="px-0 md:px-8 lg:px-12">
+      <Section className="px-0 md:px-8 lg:px-12 bg-[#F7F4EF]">
         <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
           <ProductGallery
             media={media.nodes}
@@ -153,13 +153,21 @@ export default function Product() {
           />
           <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
             <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
-              <div className="grid gap-2">
-                <Heading as="h1" className="whitespace-normal">
-                  {title}
-                </Heading>
+              <div className="grid gap-3">
                 {vendor && (
-                  <Text className={'opacity-50 font-medium'}>{vendor}</Text>
+                  <span
+                    className="text-[#9C6B4A] text-xs uppercase tracking-[0.15em]"
+                    style={{fontFamily: '"Hanken Grotesk", sans-serif'}}
+                  >
+                    {vendor}
+                  </span>
                 )}
+                <h1
+                  className="whitespace-normal text-[#1C1A17] text-3xl md:text-4xl leading-[1.1]"
+                  style={{fontFamily: '"Fraunces", serif', fontWeight: 380}}
+                >
+                  {title}
+                </h1>
               </div>
               <ProductForm
                 productOptions={productOptions}
@@ -247,9 +255,12 @@ export function ProductForm({
             key={option.name}
             className="product-options flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
           >
-            <Heading as="legend" size="lead" className="min-w-[4rem]">
+            <legend
+              className="min-w-[4rem] text-[#1C1A17] text-xs uppercase tracking-[0.15em]"
+              style={{fontFamily: '"Hanken Grotesk", sans-serif'}}
+            >
               {option.name}
-            </Heading>
+            </legend>
             <div className="flex flex-wrap items-baseline gap-4">
               {option.optionValues.length > 7 ? (
                 <div className="relative w-full">
@@ -342,9 +353,11 @@ export function ProductForm({
                       prefetch="intent"
                       replace
                       className={clsx(
-                        'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
-                        selected ? 'border-primary/50' : 'border-primary/0',
-                        available ? 'opacity-100' : 'opacity-50',
+                        'leading-none py-2 px-4 rounded-full border text-sm cursor-pointer transition-all duration-200',
+                        selected
+                          ? 'border-[#1C1A17] bg-[#1C1A17] text-[#F7F4EF]'
+                          : 'border-[#1C1A17]/20 text-[#1C1A17] hover:border-[#1C1A17]/50',
+                        !available && 'opacity-40',
                       )}
                     >
                       <ProductOptionSwatch swatch={swatch} name={name} />
@@ -358,9 +371,12 @@ export function ProductForm({
         {selectedVariant && (
           <div className="grid items-stretch gap-4">
             {isOutOfStock ? (
-              <Button variant="secondary" disabled>
-                <Text>Sold out</Text>
-              </Button>
+              <button
+                disabled
+                className="rounded-full py-3.5 px-6 text-sm uppercase tracking-[0.1em] font-medium bg-[#1C1A17]/10 text-[#1C1A17]/40 cursor-not-allowed"
+              >
+                Sold out
+              </button>
             ) : (
               <AddToCartButton
                 lines={[
@@ -371,12 +387,10 @@ export function ProductForm({
                 ]}
                 variant="primary"
                 data-test="add-to-cart"
+                className="!rounded-full !bg-[#1C1A17] hover:!bg-[#1C1A17]/85 !text-[#F7F4EF] !py-3.5 transition-colors"
               >
-                <Text
-                  as="span"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <span>Add to Cart</span> <span>·</span>{' '}
+                <span className="flex items-center justify-center gap-2 text-sm uppercase tracking-[0.1em]">
+                  <span>Add to Cart</span> <span className="opacity-50">·</span>{' '}
                   <Money
                     withoutTrailingZeros
                     data={selectedVariant?.price!}
@@ -391,7 +405,7 @@ export function ProductForm({
                       className="opacity-50 strike"
                     />
                   )}
-                </Text>
+                </span>
               </AddToCartButton>
             )}
             {!isOutOfStock && (
@@ -447,13 +461,16 @@ function ProductDetail({
       {({open}) => (
         <>
           <Disclosure.Button className="text-left">
-            <div className="flex justify-between">
-              <Text size="lead" as="h4">
+            <div className="flex justify-between items-center border-t border-[#1C1A17]/10 pt-4">
+              <span
+                className="text-[#1C1A17] text-sm uppercase tracking-[0.1em]"
+                style={{fontFamily: '"Hanken Grotesk", sans-serif'}}
+              >
                 {title}
-              </Text>
+              </span>
               <IconClose
                 className={clsx(
-                  'transition-transform transform-gpu duration-200',
+                  'w-4 h-4 text-[#1C1A17]/50 transition-transform transform-gpu duration-200',
                   !open && 'rotate-[45deg]',
                 )}
               />
@@ -462,13 +479,13 @@ function ProductDetail({
 
           <Disclosure.Panel className={'pb-4 pt-2 grid gap-2'}>
             <div
-              className="prose dark:prose-invert"
+              className="prose prose-sm text-[#1C1A17]/70"
               dangerouslySetInnerHTML={{__html: content}}
             />
             {learnMore && (
               <div className="">
                 <Link
-                  className="pb-px border-b border-primary/30 text-primary/50"
+                  className="pb-px border-b border-[#9C6B4A]/40 text-[#9C6B4A] text-sm"
                   to={learnMore}
                 >
                   Learn more

@@ -21,7 +21,7 @@ export default defineConfig({
   ],
   ssr: {
     optimizeDeps: {
-      include: ['typographic-base'],
+      include: ['@netlify/remix-edge-adapter', 'typographic-base'],
     },
   },
   optimizeDeps: {
