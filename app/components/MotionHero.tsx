@@ -1,13 +1,43 @@
-import {useState, useEffect, useRef} from 'react';
-import {LogIn, UserPlus, Play, Sparkles, Menu, X} from 'lucide-react';
+import {useState, useEffect, useRef, Suspense} from 'react';
+import {LogIn, UserPlus, Play, Sparkles, Menu, X, ShoppingBag} from 'lucide-react';
 import {useGSAP} from '@gsap/react';
 import gsap from 'gsap';
 import BoomerangVideoBg from './BoomerangVideoBg';
-import {Link} from '@remix-run/react';
+import {Link, Await, useRouteLoaderData} from '@remix-run/react';
+import {useCartUI} from '~/context/CartUIContext';
+import type {RootLoader} from '~/root';
 
 gsap.registerPlugin(useGSAP);
 
 const BG_VIDEO = '/assets/hero-video.mp4';
+
+function CartBagButton({className}: {className?: string}) {
+  const rootData = useRouteLoaderData<RootLoader>('root');
+  const {openCart} = useCartUI();
+
+  if (!rootData) return null;
+
+  return (
+    <button
+      onClick={openCart}
+      aria-label="Open cart"
+      className={`relative flex items-center justify-center ${className ?? ''}`}
+    >
+      <ShoppingBag className="w-4 h-4" />
+      <Suspense fallback={null}>
+        <Await resolve={rootData.cart} errorElement={null}>
+          {(cart) =>
+            cart?.totalQuantity ? (
+              <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[1.1rem] h-[1.1rem] px-1 rounded-full bg-[#C08A5E] text-[#1C1A17] text-[0.625rem] font-semibold leading-none">
+                {cart.totalQuantity}
+              </span>
+            ) : null
+          }
+        </Await>
+      </Suspense>
+    </button>
+  );
+}
 
 export function MotionHero() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -105,6 +135,7 @@ export function MotionHero() {
         </div>
 
         <div className="flex items-center gap-3 sm:gap-6 text-[#F7F4EF]">
+          <CartBagButton className="w-5 h-5 hover:opacity-80 transition-opacity" />
           <Link
             to="/account/register"
             className="hidden sm:flex items-center gap-2 text-sm font-medium hover:opacity-80 transition-opacity"

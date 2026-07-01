@@ -42,7 +42,7 @@ export function Drawer({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-[#1C1A17]/40 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0">
@@ -61,22 +61,28 @@ export function Drawer({
                 leaveFrom="translate-x-0"
                 leaveTo={offScreen[openFrom]}
               >
-                <Dialog.Panel className="w-screen max-w-lg text-left align-middle transition-all transform shadow-xl h-screen-dynamic bg-contrast">
+                <Dialog.Panel className="w-screen max-w-lg text-left align-middle transition-all transform shadow-xl h-screen-dynamic bg-[#F7F4EF] text-[#1C1A17]">
                   <header
-                    className={`sticky top-0 flex items-center px-6 h-nav sm:px-8 md:px-12 ${
+                    className={`sticky top-0 flex items-center px-6 h-nav sm:px-8 md:px-12 bg-[#F7F4EF] border-b border-[#1C1A17]/10 ${
                       heading ? 'justify-between' : 'justify-end'
                     }`}
                   >
                     {heading !== null && (
                       <Dialog.Title>
-                        <Heading as="span" size="lead" id="cart-contents">
+                        <Heading
+                          as="span"
+                          size="lead"
+                          id="cart-contents"
+                          className="text-[#1C1A17]"
+                          style={{fontFamily: '"Fraunces", serif', fontWeight: 380}}
+                        >
                           {heading}
                         </Heading>
                       </Dialog.Title>
                     )}
                     <button
                       type="button"
-                      className="p-4 -m-4 transition text-primary hover:text-primary/50"
+                      className="p-4 -m-4 transition text-[#1C1A17]/60 hover:text-[#1C1A17]"
                       onClick={onClose}
                       data-test="close-cart"
                     >

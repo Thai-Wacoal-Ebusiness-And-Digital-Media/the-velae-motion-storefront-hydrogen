@@ -1,8 +1,7 @@
 import {useParams, Form, Await, useRouteLoaderData} from '@remix-run/react';
 import useWindowScroll from 'react-use/esm/useWindowScroll';
 import {Disclosure} from '@headlessui/react';
-import {Suspense, useEffect, useMemo} from 'react';
-import {CartForm} from '@shopify/hydrogen';
+import {Suspense, useMemo} from 'react';
 
 import {type LayoutQuery} from 'storefrontapi.generated';
 import {Text, Heading, Section} from '~/components/Text';
@@ -11,6 +10,7 @@ import {Cart} from '~/components/Cart';
 import {CartLoading} from '~/components/CartLoading';
 import {Input} from '~/components/Input';
 import {Drawer, useDrawer} from '~/components/Drawer';
+import {CartUIProvider, useCartUI} from '~/context/CartUIContext';
 import {CountrySelector} from '~/components/CountrySelector';
 import {
   IconMenu,
@@ -26,7 +26,6 @@ import {
   useIsHomePath,
 } from '~/lib/utils';
 import {useIsHydrated} from '~/hooks/useIsHydrated';
-import {useCartFetchers} from '~/hooks/useCartFetchers';
 import type {RootLoader} from '~/root';
 
 type LayoutProps = {
@@ -41,13 +40,14 @@ export function PageLayout({children, layout}: LayoutProps) {
   const {headerMenu, footerMenu} = layout || {};
   const isHome = useIsHomePath();
   return (
-    <>
+    <CartUIProvider>
       <div className="flex flex-col min-h-screen">
         <div className="">
           <a href="#mainContent" className="sr-only">
             Skip to content
           </a>
         </div>
+        <CartDrawer />
         {!isHome && headerMenu && layout?.shop.name && (
           <Header title={layout.shop.name} menu={headerMenu} />
         )}
@@ -56,18 +56,13 @@ export function PageLayout({children, layout}: LayoutProps) {
         </main>
       </div>
       {footerMenu && <Footer menu={footerMenu} />}
-    </>
+    </CartUIProvider>
   );
 }
 
 function Header({title, menu}: {title: string; menu?: EnhancedMenu}) {
   const isHome = useIsHomePath();
-
-  const {
-    isOpen: isCartOpen,
-    openDrawer: openCart,
-    closeDrawer: closeCart,
-  } = useDrawer();
+  const {openCart} = useCartUI();
 
   const {
     isOpen: isMenuOpen,
@@ -75,17 +70,8 @@ function Header({title, menu}: {title: string; menu?: EnhancedMenu}) {
     closeDrawer: closeMenu,
   } = useDrawer();
 
-  const addToCartFetchers = useCartFetchers(CartForm.ACTIONS.LinesAdd);
-
-  // toggle cart drawer when adding to cart
-  useEffect(() => {
-    if (isCartOpen || !addToCartFetchers.length) return;
-    openCart();
-  }, [addToCartFetchers, isCartOpen, openCart]);
-
   return (
     <>
-      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
       {menu && (
         <MenuDrawer isOpen={isMenuOpen} onClose={closeMenu} menu={menu} />
       )}
@@ -105,16 +91,29 @@ function Header({title, menu}: {title: string; menu?: EnhancedMenu}) {
   );
 }
 
-function CartDrawer({isOpen, onClose}: {isOpen: boolean; onClose: () => void}) {
+/**
+ * Mounted unconditionally in PageLayout (not just Header) so routes with
+ * their own chrome, like the homepage's MotionHero, still have a working
+ * cart drawer via useCartUI().
+ */
+function CartDrawer() {
+  const {isCartOpen, closeCart} = useCartUI();
   const rootData = useRouteLoaderData<RootLoader>('root');
   if (!rootData) return null;
 
   return (
-    <Drawer open={isOpen} onClose={onClose} heading="Cart" openFrom="right">
+    <Drawer
+      open={isCartOpen}
+      onClose={closeCart}
+      heading="Cart"
+      openFrom="right"
+    >
       <div className="grid">
         <Suspense fallback={<CartLoading />}>
           <Await resolve={rootData?.cart}>
-            {(cart) => <Cart layout="drawer" onClose={onClose} cart={cart} />}
+            {(cart) => (
+              <Cart layout="drawer" onClose={closeCart} cart={cart} />
+            )}
           </Await>
         </Suspense>
       </div>

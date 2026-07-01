@@ -189,7 +189,11 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string}) {
   return (
     <div className="flex flex-col mt-2">
       <a href={checkoutUrl} target="_self">
-        <Button as="span" width="full">
+        <Button
+          as="span"
+          width="full"
+          className="!rounded-full !bg-[#1C1A17] hover:!bg-[#1C1A17]/85 !text-[#F7F4EF] !py-3.5 text-sm uppercase tracking-[0.1em] font-medium transition-colors"
+        >
           Continue to Checkout
         </Button>
       </a>
@@ -208,8 +212,8 @@ function CartSummary({
   layout: Layouts;
 }) {
   const summary = {
-    drawer: 'grid gap-4 p-6 border-t md:px-12',
-    page: 'sticky top-nav grid gap-6 p-4 md:px-6 md:translate-y-4 bg-primary/5 rounded w-full',
+    drawer: 'grid gap-4 p-6 border-t border-[#1C1A17]/10 md:px-12',
+    page: 'sticky top-nav grid gap-6 p-4 md:px-6 md:translate-y-4 bg-[#1C1A17]/5 rounded w-full',
   };
 
   return (
@@ -219,8 +223,14 @@ function CartSummary({
       </h2>
       <dl className="grid">
         <div className="flex items-center justify-between font-medium">
-          <Text as="dt">Subtotal</Text>
-          <Text as="dd" data-test="subtotal">
+          <Text
+            as="dt"
+            className="text-[#1C1A17] text-xs uppercase tracking-[0.1em]"
+            style={{fontFamily: '"Hanken Grotesk", sans-serif'}}
+          >
+            Subtotal
+          </Text>
+          <Text as="dd" className="text-[#1C1A17]" data-test="subtotal">
             {cost?.subtotalAmount?.amount ? (
               <Money data={cost?.subtotalAmount} />
             ) : (
@@ -272,7 +282,12 @@ function CartLineItem({line}: {line: CartLine}) {
 
       <div className="flex justify-between flex-grow">
         <div className="grid gap-2">
-          <Heading as="h3" size="copy">
+          <Heading
+            as="h3"
+            size="copy"
+            className="text-[#1C1A17]"
+            style={{fontFamily: '"Fraunces", serif', fontWeight: 380}}
+          >
             {merchandise?.product?.handle ? (
               <Link to={`/products/${merchandise.product.handle}`}>
                 {merchandise?.product?.title || ''}
@@ -284,7 +299,7 @@ function CartLineItem({line}: {line: CartLine}) {
 
           <div className="grid pb-2">
             {(merchandise?.selectedOptions || []).map((option) => (
-              <Text color="subtle" key={option.name}>
+              <Text className="text-[#1C1A17]/50 text-sm" key={option.name}>
                 {option.name}: {option.value}
               </Text>
             ))}
@@ -297,7 +312,7 @@ function CartLineItem({line}: {line: CartLine}) {
             <ItemRemoveButton lineId={id} />
           </div>
         </div>
-        <Text>
+        <Text className="text-[#1C1A17]">
           <CartLinePrice line={line} as="span" />
         </Text>
       </div>
@@ -315,7 +330,7 @@ function ItemRemoveButton({lineId}: {lineId: CartLine['id']}) {
       }}
     >
       <button
-        className="flex items-center justify-center w-10 h-10 border rounded"
+        className="flex items-center justify-center w-10 h-10 border border-[#1C1A17]/15 rounded-full text-[#1C1A17]/60 hover:text-[#1C1A17] hover:border-[#1C1A17]/40 transition-colors"
         type="submit"
       >
         <span className="sr-only">Remove</span>
@@ -343,12 +358,12 @@ function CartLineQuantityAdjust({line}: {line: CartLine}) {
       <label htmlFor={`quantity-${lineId}`} className="sr-only">
         Quantity, {optimisticQuantity}
       </label>
-      <div className="flex items-center border rounded">
+      <div className="flex items-center border border-[#1C1A17]/15 rounded-full">
         <UpdateCartButton lines={[{id: lineId, quantity: prevQuantity}]}>
           <button
             name="decrease-quantity"
             aria-label="Decrease quantity"
-            className="w-10 h-10 transition text-primary/50 hover:text-primary disabled:text-primary/10"
+            className="w-10 h-10 transition text-[#1C1A17]/50 hover:text-[#1C1A17] disabled:text-[#1C1A17]/10"
             value={prevQuantity}
             disabled={optimisticQuantity <= 1}
           >
@@ -360,13 +375,16 @@ function CartLineQuantityAdjust({line}: {line: CartLine}) {
           </button>
         </UpdateCartButton>
 
-        <div className="px-2 text-center" data-test="item-quantity">
+        <div
+          className="px-2 text-center text-[#1C1A17]"
+          data-test="item-quantity"
+        >
           {optimisticQuantity}
         </div>
 
         <UpdateCartButton lines={[{id: lineId, quantity: nextQuantity}]}>
           <button
-            className="w-10 h-10 transition text-primary/50 hover:text-primary"
+            className="w-10 h-10 transition text-[#1C1A17]/50 hover:text-[#1C1A17]"
             name="increase-quantity"
             value={nextQuantity}
             aria-label="Increase quantity"
@@ -452,12 +470,17 @@ export function CartEmpty({
   return (
     <div ref={scrollRef} className={container[layout]} hidden={hidden}>
       <section className="grid gap-6">
-        <Text format>
+        <Text format className="text-[#1C1A17]/70">
           Looks like you haven&rsquo;t added anything yet, let&rsquo;s get you
           started!
         </Text>
         <div>
-          <Button onClick={onClose}>Continue shopping</Button>
+          <Button
+            onClick={onClose}
+            className="!rounded-full !bg-[#1C1A17] hover:!bg-[#1C1A17]/85 !text-[#F7F4EF] text-sm uppercase tracking-[0.1em] font-medium transition-colors"
+          >
+            Continue shopping
+          </Button>
         </div>
       </section>
       <section className="grid gap-8 pt-16">
