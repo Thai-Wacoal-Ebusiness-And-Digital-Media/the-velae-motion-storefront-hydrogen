@@ -6,11 +6,15 @@ export function VelaeBrandStory() {
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-[80vh]">
         <div className="relative overflow-hidden">
           <div className="aspect-[4/5] md:aspect-auto md:absolute md:inset-0">
-            <img
-              src="/assets/brand-story.jpeg"
-              alt="Founder crafting soap in a Thai workshop"
-              className="w-full h-full object-cover"
-              loading="lazy"
+            <video
+              src="/assets/Woman_inspecting_handmade_soap_202607011602.mp4"
+              className="w-full h-full object-cover object-center"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Founder inspecting handmade soap in a Thai workshop"
             />
           </div>
         </div>
