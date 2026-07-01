@@ -21,8 +21,7 @@ export function ProductGallery({
       className={`swimlane md:grid-flow-row hiddenScroll md:p-0 md:overflow-x-auto md:grid-cols-2 ${className}`}
     >
       {media.map((med, i) => {
-        const isFirst = i === 0;
-        const isFourth = i === 3;
+        const isHero = i === 0;
         const isFullWidth = i % 3 === 0;
 
         const image =
@@ -32,8 +31,8 @@ export function ProductGallery({
 
         const style = [
           isFullWidth ? 'md:col-span-2' : 'md:col-span-1',
-          isFirst || isFourth ? '' : 'md:aspect-[4/5]',
-          'aspect-square snap-center card-image bg-white dark:bg-contrast/10 w-mobileGallery md:w-full',
+          isHero ? 'md:max-h-[70vh]' : '',
+          'aspect-[4/5] snap-center card-image bg-white dark:bg-contrast/10 w-mobileGallery md:w-full',
         ].join(' ');
 
         return (
@@ -42,13 +41,13 @@ export function ProductGallery({
               <Image
                 loading={i === 0 ? 'eager' : 'lazy'}
                 data={image}
-                aspectRatio={!isFirst && !isFourth ? '4/5' : undefined}
+                aspectRatio="4/5"
                 sizes={
-                  isFirst || isFourth
+                  isFullWidth
                     ? '(min-width: 48em) 60vw, 90vw'
                     : '(min-width: 48em) 30vw, 90vw'
                 }
-                className="object-cover w-full h-full aspect-square fadeIn"
+                className="object-cover w-full h-full fadeIn"
               />
             )}
           </div>

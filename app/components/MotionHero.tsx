@@ -1,12 +1,46 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {LogIn, UserPlus, Play, Sparkles, Menu, X} from 'lucide-react';
+import {useGSAP} from '@gsap/react';
+import gsap from 'gsap';
 import BoomerangVideoBg from './BoomerangVideoBg';
 import {Link} from '@remix-run/react';
+
+gsap.registerPlugin(useGSAP);
 
 const BG_VIDEO = '/assets/hero-video.mp4';
 
 export function MotionHero() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const scope = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const tl = gsap.timeline({defaults: {ease: 'expo.out'}});
+
+        tl.set(
+          [
+            '.hero-headline',
+            '.hero-subhead',
+            '.hero-eyebrow',
+            '.hero-blurb',
+            '.hero-cta-row',
+          ],
+          {opacity: 0, y: 24},
+        )
+          .to('.hero-headline', {opacity: 1, y: 0, duration: 1})
+          .to('.hero-subhead', {opacity: 1, y: 0, duration: 0.8}, '-=0.6')
+          .to('.hero-eyebrow', {opacity: 1, y: 0, duration: 0.6}, '-=0.3')
+          .to('.hero-blurb', {opacity: 1, y: 0, duration: 0.6}, '-=0.4')
+          .to('.hero-cta-row', {opacity: 1, y: 0, duration: 0.6}, '-=0.4');
+      });
+
+      return () => mm.revert();
+    },
+    {scope},
+  );
 
   useEffect(() => {
     if (menuOpen) {
@@ -27,7 +61,10 @@ export function MotionHero() {
   ];
 
   return (
-    <section className="relative w-full min-h-screen sm:h-screen overflow-hidden">
+    <section
+      ref={scope}
+      className="relative w-full min-h-screen sm:h-screen overflow-hidden"
+    >
       <BoomerangVideoBg
         src={BG_VIDEO}
         className="absolute inset-0 w-full h-full"
@@ -180,7 +217,7 @@ export function MotionHero() {
       {/* Hero copy */}
       <div className="relative z-10 flex flex-col items-center text-center pt-24 sm:pt-28 md:pt-32 px-4 sm:px-6">
         <h1
-          className="leading-[0.95] text-[#F7F4EF] text-[2rem] sm:text-4xl md:text-5xl lg:text-[4.75rem] xl:text-[5.25rem] max-w-5xl"
+          className="hero-headline leading-[0.95] text-[#F7F4EF] text-[2rem] sm:text-4xl md:text-5xl lg:text-[4.75rem] xl:text-[5.25rem] max-w-5xl"
           style={{
             fontFamily: '"Fraunces", serif',
             fontWeight: 380,
@@ -193,7 +230,7 @@ export function MotionHero() {
             <br className="hidden sm:block" /> small detail
           </span>
         </h1>
-        <p className="mt-6 sm:mt-8 text-[#F7F4EF]/80 text-sm sm:text-base md:text-lg leading-relaxed max-w-md px-2">
+        <p className="hero-subhead mt-6 sm:mt-8 text-[#F7F4EF]/80 text-sm sm:text-base md:text-lg leading-relaxed max-w-md px-2">
           Soap, fragrance & clothing — crafted with care in Thailand, made to be
           part of your everyday ritual.
         </p>
@@ -201,7 +238,7 @@ export function MotionHero() {
 
       {/* Bottom-left CTA block */}
       <div className="absolute left-4 right-4 sm:right-auto sm:left-6 md:left-10 bottom-6 sm:bottom-8 md:bottom-10 z-10 max-w-sm">
-        <div className="flex items-center gap-2 text-[#F7F4EF]/95 mb-3">
+        <div className="hero-eyebrow flex items-center gap-2 text-[#F7F4EF]/95 mb-3">
           <Sparkles className="w-4 h-4" />
           <span
             className="text-xs font-medium uppercase tracking-[0.15em]"
@@ -209,11 +246,11 @@ export function MotionHero() {
             New Collection
           </span>
         </div>
-        <p className="text-[#F7F4EF]/75 text-xs leading-relaxed mb-6 max-w-xs">
+        <p className="hero-blurb text-[#F7F4EF]/75 text-xs leading-relaxed mb-6 max-w-xs">
           Discover our latest pieces — small-batch soaps, natural fragrances,
           and effortless linen essentials.
         </p>
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="hero-cta-row flex items-center gap-4 flex-wrap">
           <Link
             to="/collections"
             className="bg-[#F7F4EF] hover:bg-[#F7F4EF]/90 text-[#1C1A17] text-sm font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-colors shadow-sm uppercase tracking-wider text-xs"

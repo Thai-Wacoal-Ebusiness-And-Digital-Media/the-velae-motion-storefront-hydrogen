@@ -16,6 +16,7 @@ import {VelaePillars} from '~/components/VelaePillars';
 import {VelaeLookbook} from '~/components/VelaeLookbook';
 import {VelaeMarquee} from '~/components/VelaeMarquee';
 import {VelaeNewsletter} from '~/components/VelaeNewsletter';
+import {Reveal} from '~/components/Reveal';
 import {FeaturedCollections} from '~/components/FeaturedCollections';
 import {ProductSwimlane} from '~/components/ProductSwimlane';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
@@ -166,32 +167,42 @@ export default function Homepage() {
       <MotionHero />
       <VelaeTriptych />
 
-      <VelaeEditorialSplit
-        image="/assets/editorial-fragrance.jpeg"
-        imageAlt="Amber perfume bottle with ceramic dish and dried wildflower"
-        eyebrow="Fragrance"
-        heading="Scent that stays with you quietly"
-        body="Natural fragrances built from essential oils and botanicals — never loud, always present. Designed to feel like a second skin."
-        ctaLabel="Explore fragrance"
-        ctaHref="/collections/fragrance"
-      />
+      <Reveal>
+        <VelaeEditorialSplit
+          image="/assets/editorial-fragrance.jpeg"
+          imageAlt="Amber perfume bottle with ceramic dish and dried wildflower"
+          eyebrow="Fragrance"
+          heading="Scent that stays with you quietly"
+          body="Natural fragrances built from essential oils and botanicals — never loud, always present. Designed to feel like a second skin."
+          ctaLabel="Explore fragrance"
+          ctaHref="/collections/fragrance"
+        />
+      </Reveal>
 
-      <VelaePillars />
-      <VelaeBrandStory />
+      <Reveal>
+        <VelaePillars />
+      </Reveal>
+      <Reveal>
+        <VelaeBrandStory />
+      </Reveal>
       <VelaeMarquee />
 
-      <VelaeEditorialSplit
-        image="/assets/triptych-wardrobe.jpeg"
-        imageAlt="Person wearing natural linen shirt"
-        eyebrow="The Wardrobe"
-        heading="Linen, cotton, wool — nothing more"
-        body="Simple, well-made clothing in natural fibres. Pieces that soften with wear, age with grace, and never try too hard."
-        ctaLabel="Explore the wardrobe"
-        ctaHref="/collections/the-wardrobe"
-        reverse
-      />
+      <Reveal>
+        <VelaeEditorialSplit
+          image="/assets/triptych-wardrobe.jpeg"
+          imageAlt="Person wearing natural linen shirt"
+          eyebrow="The Wardrobe"
+          heading="Linen, cotton, wool — nothing more"
+          body="Simple, well-made clothing in natural fibres. Pieces that soften with wear, age with grace, and never try too hard."
+          ctaLabel="Explore the wardrobe"
+          ctaHref="/collections/the-wardrobe"
+          reverse
+        />
+      </Reveal>
 
-      <VelaeLookbook />
+      <Reveal>
+        <VelaeLookbook />
+      </Reveal>
 
       {featuredProducts && (
         <Suspense>
@@ -216,7 +227,9 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      <VelaeNewsletter />
+      <Reveal>
+        <VelaeNewsletter />
+      </Reveal>
     </>
   );
 }

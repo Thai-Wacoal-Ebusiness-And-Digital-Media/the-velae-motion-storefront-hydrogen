@@ -33,6 +33,9 @@ export default defineConfig({
       'react-use/esm/useScroll',
       'react-use/esm/useDebounce',
       'react-use/esm/useWindowScroll',
+      'gsap',
+      'gsap/ScrollTrigger',
+      '@gsap/react',
     ],
   },
   build: {

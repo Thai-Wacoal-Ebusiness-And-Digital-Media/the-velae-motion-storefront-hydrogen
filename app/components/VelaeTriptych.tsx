@@ -1,4 +1,5 @@
 import {Link} from '@remix-run/react';
+import {Reveal} from './Reveal';
 
 const panels = [
   {
@@ -22,12 +23,17 @@ export function VelaeTriptych() {
   return (
     <section className="bg-[#F7F4EF] py-16 sm:py-24 md:py-32">
       <div className="mx-auto" style={{padding: '0 clamp(1.6rem, 3.5vw, 5rem)'}}>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+        <Reveal
+          className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3"
+          childSelector=".triptych-card"
+          stagger={0.15}
+          y={36}
+        >
           {panels.map((panel) => (
             <Link
               key={panel.href}
               to={panel.href}
-              className="group relative overflow-hidden"
+              className="triptych-card group relative overflow-hidden"
             >
               <div className="aspect-[3/4] overflow-hidden">
                 <img
@@ -45,9 +51,9 @@ export function VelaeTriptych() {
               </p>
             </Link>
           ))}
-        </div>
+        </Reveal>
 
-        <div className="mt-12 sm:mt-16 text-center">
+        <Reveal className="mt-12 sm:mt-16 text-center">
           <h2
             className="text-[#1C1A17] text-2xl sm:text-3xl md:text-4xl leading-[1.1] max-w-2xl mx-auto"
             style={{fontFamily: '"Fraunces", serif', fontWeight: 380}}
@@ -60,7 +66,7 @@ export function VelaeTriptych() {
           >
             Shop all
           </Link>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
